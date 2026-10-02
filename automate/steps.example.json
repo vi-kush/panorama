@@ -1,0 +1,14 @@
+[
+  { "wait": 10000, "eval": "document.querySelectorAll('.thumb').length", "print": "scenes in 360 view:" },
+  { "shot": "01-view" },
+
+  { "eval": "document.getElementById('mode-walk').click(); document.querySelector('[data-tech=projected]').click(); 1" },
+  { "wait": 3000, "shot": "02-walkthrough-start" },
+
+  { "eval": "(function(){ const s = document.getElementById('stage'); for (let i = 0; i < 6; i++) s.dispatchEvent(new WheelEvent('wheel', { deltaY: 150, bubbles: true, cancelable: true })); return 1; })()" },
+  { "wait": 7000, "eval": "document.getElementById('walk-now').textContent", "print": "now at:" },
+  { "shot": "03-bathroom" },
+
+  { "eval": "document.getElementById('mode-view').click(); 1" },
+  { "wait": 2000, "shot": "04-back-to-360-view" }
+]

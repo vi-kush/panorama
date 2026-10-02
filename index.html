@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panorama Explorer | 360° Virtual Tours</title>
+    <meta name="description" content="Explore 360° panoramas, link scenes into virtual tours with hotspots, and add your own equirectangular photos.">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" defer></script>
+    <script src="pictures.js" defer></script>
+    <script src="scenes.js" defer></script>
+    <script src="tour.js" defer></script>
+    <script src="app.js" defer></script>
+    <script src="walkthrough.js" defer></script>
+</head>
+<body>
+    <div id="stage">
+        <canvas id="view" aria-label="360 degree panorama viewer"></canvas>
+        <div id="hotspots"></div>
+        <video id="walk-video" muted playsinline preload="auto" hidden></video>
+        <div id="walk-hotspots" aria-label="Places in this tour"></div>
+        <div id="fade"></div>
+    </div>
+
+    <header class="bar top">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">◎</span> Panorama<span>Explorer</span></div>
+        <div class="modes" role="group" aria-label="Viewing mode">
+            <button type="button" class="mode" id="mode-view" aria-pressed="true">360° View</button>
+            <button type="button" class="mode" id="mode-walk" aria-pressed="false">Walkthrough</button>
+        </div>
+        <div class="scene-title" id="scene-title" aria-live="polite"></div>
+        <div class="tools">
+            <button type="button" class="tool only-view" id="btn-rotate" aria-pressed="true" title="Auto-rotate">⟳ <span>Rotate</span></button>
+            <button type="button" class="tool only-view" id="btn-edit" aria-pressed="false" title="Place links between scenes">✎ <span>Edit links</span></button>
+            <button type="button" class="tool only-view" id="btn-add" title="Add your own 360° photo">＋ <span>Add photo</span></button>
+            <button type="button" class="tool" id="btn-full" title="Fullscreen">⛶ <span>Fullscreen</span></button>
+        </div>
+    </header>
+
+    <div class="banner" id="edit-banner" hidden>Edit mode: click empty space to add a link to another scene. Click a link to try it; × deletes it.</div>
+    <div class="hint" id="hint">Drag to look around · scroll or pinch to zoom</div>
+
+    <section class="walk-ui" id="walk-ui" hidden aria-label="Walkthrough controls">
+        <div class="techniques" role="group" aria-label="Walkthrough style">
+            <button type="button" class="technique" data-tech="glide" aria-pressed="true">Forward glide</button>
+            <button type="button" class="technique" data-tech="projected" aria-pressed="false">Projected photos</button>
+            <button type="button" class="technique" data-tech="video" aria-pressed="false">Video walkthrough</button>
+        </div>
+        <p class="technique-desc" id="tech-desc"></p>
+        <div class="walk-bar">
+            <button type="button" class="step" id="walk-prev" aria-label="Previous stop">‹</button>
+            <div class="walk-track" id="walk-track" role="progressbar" aria-label="Tour progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="walk-fill" id="walk-fill"></div>
+                <div class="walk-stops" id="walk-stops"></div>
+            </div>
+            <button type="button" class="step" id="walk-next" aria-label="Next stop">›</button>
+        </div>
+        <div class="walk-now" id="walk-now"></div>
+    </section>
+
+    <canvas class="walk-map" id="walk-map" hidden role="img" aria-label="Floor plan showing your position and the direction you are facing. Click a stop to go there."></canvas>
+
+    <nav class="strip" id="strip" aria-label="Scenes"></nav>
+
+    <form class="popover" id="link-form" hidden>
+        <h2>New link</h2>
+        <label>Goes to
+            <select id="link-target"></select>
+        </label>
+        <label>Label
+            <input type="text" id="link-label" maxlength="40" placeholder="e.g. Go to the garden">
+        </label>
+        <div class="row">
+            <button type="button" class="tool" id="link-cancel">Cancel</button>
+            <button type="submit" class="tool primary">Add link</button>
+        </div>
+    </form>
+
+    <input type="file" id="file-input" accept="image/*" multiple hidden>
+    <div class="drop" id="drop" hidden>Drop 360° photos to add them as scenes</div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
