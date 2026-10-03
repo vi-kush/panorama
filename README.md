@@ -4,7 +4,7 @@ An interactive 360° panorama viewer for the web.
 
 ## 🔗 Preview
 
-**Live demo:** [https://vi-kush.github.io/Panorama/](https://vi-kush.github.io/Panorama/)
+**Live demo:** [https://vi-kush.github.io/panorama/](https://vi-kush.github.io/panorama/)
 
 Drag to look around, scroll or pinch to zoom.
 
